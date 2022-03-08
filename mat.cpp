@@ -5,7 +5,7 @@
 #include <typeinfo>
 
 
-bool ariel::check_input(int col, int row, char symbol_1, char symbol_2){
+void ariel::check_input(int col, int row, char symbol_1, char symbol_2){
     if (col % 2 == 0 || row % 2 == 0){
         throw std::invalid_argument("Mat size is always odd");
     }
@@ -18,29 +18,22 @@ bool ariel::check_input(int col, int row, char symbol_1, char symbol_2){
     if(row < 0 || col < 0){
         throw std::invalid_argument("you should only positive numbers");
     }
-    return true;
-
 }
 
 std::string ariel::mat(int col, int row, char symbol_1, char symbol_2){
+    check_input(col, row, symbol_1, symbol_2);
     std::string ans = "";
-    bool flag = check_input(col, row, symbol_1, symbol_2);
-    if(flag){
-        char** mat;
-        mat = new char*[row];
-        for(int i = 0; i < row; ++i){
-            mat[i] = new char[col];
-        }
-        fill_mat(mat, col-1, row-1, symbol_1, symbol_2);
-        ans = convert_mat(mat, col, row);
-        for(int i = 0; i < row; ++i){
-            delete (mat[i]);
-        }
-        delete[] mat;
-    }else{
-        std::cout << "need exception" << std::endl;
-        ans = "";
+    char** mat;
+    mat = new char*[row];
+    for(int i = 0; i < row; ++i){
+        mat[i] = new char[col];
     }
+    fill_mat(mat, col-1, row-1, symbol_1, symbol_2);
+    ans = convert_mat(mat, col, row);
+    for(int i = 0; i < row; ++i){
+        delete [] mat[i];
+    }
+    delete[] mat;
     return ans;
 }
 
