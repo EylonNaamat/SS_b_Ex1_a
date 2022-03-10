@@ -2,7 +2,7 @@
 #include <string>
 #include "mat.hpp"
 #include <stdexcept>
-#include <typeinfo>
+#include <vector>
 
 
 void ariel::check_input(int col, int row, char symbol_1, char symbol_2){
@@ -22,26 +22,12 @@ void ariel::check_input(int col, int row, char symbol_1, char symbol_2){
 
 std::string ariel::mat(int col, int row, char symbol_1, char symbol_2){
     check_input(col, row, symbol_1, symbol_2);
-    std::string ans = "";
-    char** mat;
-    mat = new char*[row];
-    for(int i = 0; i < row; ++i){
-        mat[i] = new char[col];
-    }
-    fill_mat(mat, col-1, row-1, symbol_1, symbol_2);
-    ans = convert_mat(mat, col, row);
-    for(int i = 0; i < row; ++i){
-        delete [] mat[i];
-    }
-    delete[] mat;
-    return ans;
-}
-
-void ariel::fill_mat(char** mat,int col, int row, char symbol_1, char symbol_2){
-    int top = 0;
-    int down = row;
+    std::string ans;
+    std::vector < std::vector<char>> mat(row, std::vector<char>(col));
+        int top = 0;
+    int down = row-1;
     int left = 0;
-    int right = col;
+    int right = col-1;
     int flag = 0;
     char curr_symbol = symbol_1;
     
@@ -70,10 +56,6 @@ void ariel::fill_mat(char** mat,int col, int row, char symbol_1, char symbol_2){
         ++left;
         ++flag;
     }
-}
-
-std::string ariel::convert_mat(char** mat,int col, int row){
-    std::string ans = "";
     for(int i = 0; i < row; ++i){
         for(int j = 0; j < col; ++j){
             ans += mat[i][j];
@@ -82,5 +64,6 @@ std::string ariel::convert_mat(char** mat,int col, int row){
     }
     return ans;
 }
+
 
 
